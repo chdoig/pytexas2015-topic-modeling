@@ -278,12 +278,11 @@
 							<li>Gensim: <a href="https://radimrehurek.com/gensim/">https://radimrehurek.com/gensim/</a></li>
 							<li>Graphlab: <a href="https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html">https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html</a></li>
 							<li>lda: <a href="http://pythonhosted.org//lda/">http://pythonhosted.org//lda/</a></li>
-							<li>sklearn LatentDirichletAllocation: COMING SOON!</li>
+							<li>sklearn: LatentDirichletAllocation: COMING SOON in 0.17!</li>
 						</ul>
 						</div>
 						<div style="font-size: 22px">
-						<p>Warning: LDA in scikit-learn refers to Linear Discriminant Analysis!</p>
-						<p>scikit-learn implements alternative algorithms, e.g. NMF (Non Negative Matrix Factorization) [1][2]. Renaming COMING SOON!</p>
+						<p>Warning: Current LDA in scikit-learn refers to Linear Discriminant Analysis!</p>
 						</div>
 						<hr>
 						<div style="font-size: 18px">
@@ -343,6 +342,24 @@ model.fit(X)  # model.fit_transform(X) is also available
 
 					</section>
 
+
+					<section>
+						<h4>sklearn.decomposition.LatentDirichletAllocation</h4>
+						<pre><code class="prettyprint prettyprinted python">
+from sklearn.decomposition import NMF, LatentDirichletAllocation
+X = ...
+lda = LatentDirichletAllocation(n_topics=n_topics, 
+								max_iter=5,
+                                random_state=0)
+lda.fit(X)
+						</code></pre>
+				    <hr>
+						<div style="font-size: 18px">
+						<li><a href="http://scikit-learn.org/dev/auto_examples/applications/topics_extraction_with_nmf_lda.html#example-applications-topics-extraction-with-nmf-lda-py">scikit-learn LDA example</a></li>
+						</div>
+
+					</section>
+
 				</section>
 
 				<section>
@@ -372,6 +389,34 @@ model.fit(X)  # model.fit_transform(X) is also available
 					</section>
 
 					<section>
+						<h4>Scikit-learn example</h4>
+						<pre><code class="prettyprint prettyprinted python">
+from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.datasets import fetch_20newsgroups
+
+# Initialize variables
+n_samples = 2000
+n_features = 1000
+n_topics = 10
+
+dataset = fetch_20newsgroups(shuffle=True, random_state=1,
+                             remove=('headers', 'footers', 'quotes'))
+data_samples = dataset.data[:n_samples]
+
+# use tf feature for LDA model
+tf_vectorizer = CountVectorizer(max_df=0.95, min_df=2, max_features=n_features,
+                                stop_words='english')
+tf = tf_vectorizer.fit_transform(data_samples)
+
+lda = LatentDirichletAllocation(n_topics=n_topics, max_iter=5,
+                                learning_method='online', learning_offset=50.,
+                                random_state=0)
+lda.fit(tf)
+						</code></pre>
+					</section>
+
+
+					<section>
 						<h4>Evaluation - Visualization</h4>
 						<p><a href="http://cpsievert.github.io/LDAvis/reviews/vis/#topic=7&lambda=0.6&term=">LDAVis</a></p>
 						<img src="images/ldavis.png"  width="80%">
@@ -380,17 +425,6 @@ model.fit(X)  # model.fit_transform(X) is also available
 							<a href="https://github.com/bmabey/pyLDAvis">https://github.com/bmabey/pyLDAvis</a></p>
 						</p>
 						</div>
-					</section>
-
-					<section>
-						<h4>Topik</h4>
-						<p><a href="https://github.com/ContinuumIO/topik">https://github.com/ContinuumIO/topik</a></p>
-						<p>... automating the pipeline</p>
-						<pre><code class="prettyprint prettyprinted python">
-from topik.run import run_model
-
-run_model('data.json', field='abstract', model='lda_online', r_ldavis=True, output_file=True)
-						</code></pre>
 					</section>
 
 				</section>

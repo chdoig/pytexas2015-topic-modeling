@@ -348,9 +348,7 @@ model.fit(X)  # model.fit_transform(X) is also available
 						<pre><code class="prettyprint prettyprinted python">
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 X = ...
-lda = LatentDirichletAllocation(n_topics=n_topics, 
-								max_iter=5,
-                                random_state=0)
+lda = LatentDirichletAllocation(n_topics=n_topics, max_iter=5, random_state=0)
 lda.fit(X)
 						</code></pre>
 				    <hr>

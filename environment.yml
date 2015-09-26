@@ -1,0 +1,8 @@
+name: pytexas-topic
+channels:
+  - chdoig
+dependencies:
+  - gensim
+  - nltk
+  - topik
+  - jupyter

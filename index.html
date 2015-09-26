@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>PyGotham 2015. Introduction to Topic Modeling in Python</title>
+
+		<meta name="description" content="PyGotham 2015. Introduction to Topic Modeling in Python">
+		<meta name="author" content="Christine Doig">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/pydata.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<div class="circular" style="background: url(images/ChristineDoig.png) no-repeat; background-position: center; margin-left:40%;"></div	>
+					<h1 style="text-align:center">Introduction to Topic Modeling in Python</h1>
+					<h3 style="text-align:center">PyGotham 2015</h3>
+					<h6 style='text-align:right'>by Christine Doig</h6>
+				</section>
+
+				<section>
+					<section>
+						<h2>Introduction</h2>
+					</section>
+					<section>
+                        <h3 style="text-align:center">About me</h3>
+                        <div style="font-size:30px;">
+                        <p>Data Scientist at Continuum Analytics</p>
+                        <p>Barcelona & Austin</p>
+                        <p><a href="http://chdoig.github.com">http://chdoig.github.com</a></p>
+                        <p><a href="http://twitter.com/ch_doig">@ch_doig</a></p></div>
+                    </section>
+                    <section>
+                        <h3 style="text-align:center">About Continuum Analytics</h3>
+                        <div style="font-size:30px;">
+                        <p>Free Python distribution: Anaconda</p>
+                        <p>Open source: conda, blaze, dask, bokeh, numba...</p>
+                        <p>Proud sponsor of PyGotham, PyData, SciPy, PyCon, Europython...</p>
+                        <p>We are hiring!</p>
+                        <p><a href="http://continuum.io">http://continuum.io</a></p></div>
+                    </section>
+
+					<section>
+						<h3 style="text-align:center">About this talk</h3>
+						<div style="font-size:36px;">
+							<li>Introduction</li>
+							<li>Topic Modeling</li>
+							<li>LDA Algorithm</li>
+							<li>Python libraries</li>
+							<li>Pipelines</li>
+							<li>Other algorithms</li>
+							<li>Additional resources</li>	
+						<p><a href="http://chdoig.github.com/pygotham-topic-modeling">http://chdoig.github.com/pygotham-topic-modeling</a></p></div>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h2>Topic Modeling</h2>
+					</section>
+
+					<section>
+						<img src="images/introduction-1.png">
+					</section>
+
+					<section>
+						<h3 style="text-align:center">Topic Modeling Applications</h3>
+						<div style="font-size: 26px">
+						<p><a href="http://open.blogs.nytimes.com/2015/08/11/building-the-next-new-york-times-recommendation-engine">Building the NYT Recommendation Engine</a>: From keywords over collaborative filtering to Collaborative Topic Modeling</p></div>
+						<div style="text-align:center">
+						<img src="images/nytimes.png" width="60%"></div>
+					</section>
+
+					<section>
+						<h4>Definitions</h4>
+						<div style="font-size: 26px">
+							<li>A topic model is a type of statistical model for <span class="fragment highlight">discovering</span> the abstract <span class="fragment highlight">"topics"</span> that occur in a collection of <span class="fragment highlight">documents</span> <a href="http://en.wikipedia.org/wiki/Topic_model">[1]</a></li>
+
+							<li>Topic models are a suite of algorithms that uncover the <span class="fragment highlight">hidden thematic structure</span> in document collections. These algorithms help us develop new ways to <span class="fragment highlight">search, browse</span> and summarize large archives of texts <a href="http://www.cs.princeton.edu/~blei/topicmodeling.html">[2]</a></li>
+
+							<li>Topic models provide a simple way to analyze large volumes of <span class="fragment highlight">unlabeled</span> text. A "topic" consists of a <span class="fragment highlight">cluster</span> of words that <span class="fragment highlight">frequently</span> occur together<a href="http://mallet.cs.umass.edu/topics.php">[3]</a></li>
+						</div>
+						<hr>
+						<div style="font-size: 18px">
+							<p><a href="http://en.wikipedia.org/wiki/Topic_model">http://en.wikipedia.org/wiki/Topic_model</a><br>
+							<a href="http://www.cs.princeton.edu/~blei/topicmodeling.html">http://www.cs.princeton.edu/~blei/topicmodeling.html</a><br>
+							<a href="http://mallet.cs.umass.edu/topics.php">http://mallet.cs.umass.edu/topics.php</a></p>
+						</div>
+
+					</section>
+					<section>
+						<h4>Characteristics</h4>
+						<img src="images/topic-modeling-1.png">
+					</section>
+						
+					<section>
+						<img src="images/clustering-1.png">
+					</section>
+
+					<section>
+					<h4>Diagram</h4>
+						<img src="images/topic-modeling-2.png">
+					</section>
+
+				</section>
+
+
+				<section>
+					<section>
+						<h2>LDA</h2>
+					</section>
+
+					<section>
+						<h4>LDA vs LDA</h4>
+						<img src="images/lda-2.png">
+					</section>
+
+					<section>
+						<h4>LDA Plate notation</h4>
+						<img src="images/lda-1.png">
+						<hr>
+						<div style="font-size: 18px">
+						<li><a href="http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation</a></li>
+						</div>
+					</section>
+
+					<section>
+						<h4>Parameters and variables</h4>
+						<img src="images/lda-3.png">
+					</section>
+
+					<section>
+						<h4>Understanding LDA</h4>
+						<img src="images/lda-4.png">
+					</section>
+
+					<section>
+						<h4>LDA algorithm</h4>
+						<p>Iterative algorithm</p>
+						<ol>
+							<li>Initialize parameters</li>
+							<li>Initialize topic assignments randomly</li>
+							<li>Iterate</li>
+							<ul>For each word in each document:
+							<li>Resample topic for word, given all other words and their current topic assignments</li></ul>
+							<li>Get results</li>
+							<li>Evaluate model</li>
+						</ol>
+					</section>
+
+					<section>
+						<h4>Initialize parameters</h4>
+						<img src="images/lda-5.png" width="70%">
+					</section>
+
+					<section>
+						<h4>Initialize topic assignments randomly</h4>
+						<img src="images/lda-6.png"  width="60%">
+					</section>
+
+					<section>
+						<h4>Iterate</h4>
+						<img src="images/lda-7.png"  width="90%">
+					</section>
+
+					<section>
+						<h4>Resample topic for word, given all other words and their current topic assignments</h4>
+						<img src="images/lda-8.png"  width="60%">
+					</section>
+
+					<section>
+						<h4>Resample topic for word, given all other words and their current topic assignments</h4>
+						<li>Which topics occur in this document?</li>
+						<li>Which topics like the word X?</li>
+					</section>
+
+					<section>
+						<h4>Get results</h4>
+						<img src="images/lda-9.png"  width="80%">
+					</section>
+
+					<section>
+						<h4>Evaluate model</h4>
+						<p>Hard: Unsupervised learning. No labels.</p>
+						<p>Human-in-the-loop</p>
+						<div style="font-size:24px">
+						<li><b>Word intrusion [1]:</b> For each trained topic, take first ten words, substitute one of them with another, randomly chosen word (intruder!) and see whether a human can reliably tell which one it was. If so, the trained topic is topically coherent (good); if not, the topic has no discernible theme (bad) [2]</li>
+						<br>
+						<li><b>Topic intrusion:</b> Subjects are shown the title and a snippet from a document. Along with the document they are presented with four topics. Three of those topics are the highest probability topics assigned to that document. The remaining intruder topic is chosen randomly from the other
+						low-probability topics in the model [1]</li></div>
+
+						<hr>
+						<div style="font-size: 18px">
+							<p>[1] - <a href="http://www.umiacs.umd.edu/~jbg/docs/nips2009-rtl.pdf">http://www.umiacs.umd.edu/~jbg/docs/nips2009-rtl.pdf</a><br>
+							[2] - <a href="http://radimrehurek.com/topic_modeling_tutorial/2%20-%20Topic%20Modeling.html">http://radimrehurek.com/topic_modeling_tutorial/2%20-%20Topic%20Modeling.html</a><br>
+							</p>
+						</div>
+					</section>
+
+					<section>
+						<h4>Evaluate model</h4>
+						<p>Human-in-the-loop</p>
+						<img src="images/lda-10.png"  width="80%">
+					</section>
+
+					<section>
+						<h4>Evaluate model</h4>
+						<p>Metrics</p>
+						<div style="font-size:24px">
+							<li><b>Cosine similarity:</b> split each document into two parts, and check that topics of the first half are similar to topics of the second halves of different documents are mostly dissimilar</li>
+						</div>
+						<hr>
+						<div style="font-size: 18px">
+							<p>[1] - <a href="http://radimrehurek.com/topic_modeling_tutorial/2%20-%20Topic%20Modeling.html">http://radimrehurek.com/topic_modeling_tutorial/2%20-%20Topic%20Modeling.html</a><br>
+						</p>
+						</div>
+					</section>
+
+					<section>
+						<h4>Evaluate model</h4>
+						<p>Metrics</p>
+						<img src="images/lda-11.png"  width="80%">
+					</section>
+
+					<section>
+						<h4>Evaluate model</h4>
+						<p>More Metrics [1]:</p>
+						<li>Size (#	of tokens assigned)</li>
+						<li>Within-doc rank</li>
+						<li>Similarity to corpus-wide distribution</li>
+						<li>Locally-frequent words</li>
+						<li>Co-doc Coherence</li>
+						<div style="font-size: 18px">
+							<p>[1] - <a href="http://mimno.infosci.cornell.edu/slides/details.pdf">http://mimno.infosci.cornell.edu/slides/details.pdf</a><br>
+						</p>
+						</div>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Python libraries</h2>
+					</section>
+					<section>
+						<h4>Python libraries</h4>
+						<div style="font-size: 28px">
+						<ul>
+							<li>Gensim: <a href="https://radimrehurek.com/gensim/">https://radimrehurek.com/gensim/</a></li>
+							<li>Graphlab: <a href="https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html">https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html</a></li>
+							<li>lda: <a href="http://pythonhosted.org//lda/">http://pythonhosted.org//lda/</a></li>
+							<li>sklearn LatentDirichletAllocation: COMING SOON!</li>
+						</ul>
+						</div>
+						<div style="font-size: 22px">
+						<p>Warning: LDA in scikit-learn refers to Linear Discriminant Analysis!</p>
+						<p>scikit-learn implements alternative algorithms, e.g. NMF (Non Negative Matrix Factorization) [1][2]. Renaming COMING SOON!</p>
+						</div>
+						<hr>
+						<div style="font-size: 18px">
+							<p>[1] - <a href="https://de.dariah.eu/tatom/topic_model_python.html">https://de.dariah.eu/tatom/topic_model_python.html</a><br>
+							<p>[2] - <a href="http://scikit-learn.org/stable/auto_examples/applications/topics_extraction_with_nmf.html">http://scikit-learn.org/stable/auto_examples/applications/topics_extraction_with_nmf.html</a></p>
+						</div>
+						</p>
+					</section>
+
+					<section>
+						<h4>Gensim</h4>
+						<pre><code class="prettyprint prettyprinted python">
+import gensim
+# load id->word mapping (the dictionary)
+id2word = gensim.corpora.Dictionary.load_from_text('wiki_en_wordids.txt')
+# load corpus iterator
+mm = gensim.corpora.MmCorpus('wiki_en_tfidf.mm')
+# extract 100 LDA topics, using 20 full passes, (batch mode) no online updates
+lda = gensim.models.ldamodel.LdaModel(corpus=mm, id2word=id2word, num_topics=100, update_every=0, passes=20)
+						</code></pre>
+						<hr>
+						<div style="font-size: 18px">
+						<li><a href="http://radimrehurek.com/gensim/wiki.html#latent-dirichlet-allocation">http://radimrehurek.com/gensim/wiki.html#latent-dirichlet-allocation</a></li>
+						</div>				
+					</section>
+
+					<section>
+						<h4>Graphlab</h4>
+						<pre><code class="prettyprint prettyprinted python">
+import graphlab as gl
+docs = graphlab.SArray('http://s3.amazonaws.com/dato-datasets/nytimes')
+m = gl.topic_model.create(docs,
+                          num_topics=20,       # number of topics
+                          num_iterations=10,   # algorithm parameters
+                          alpha=.01, beta=.1)  # hyperparameters
+                        </code></pre>
+
+                        <hr>
+						<div style="font-size: 18px">
+						<li><a href="https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html">https://dato.com/products/create/docs/generated/graphlab.topic_model.create.html</a></li>
+						</div>
+
+					</section>
+
+					<section>
+						<h4>lda</h4>
+						<pre><code class="prettyprint prettyprinted python">
+import lda
+X = lda.datasets.load_reuters()
+model = lda.LDA(n_topics=20, n_iter=1500, random_state=1)
+model.fit(X)  # model.fit_transform(X) is also available
+				</code></pre>
+				    <hr>
+						<div style="font-size: 18px">
+						<li><a href="http://pythonhosted.org//lda/">http://pythonhosted.org//lda/</a></li>
+						</div>
+
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h2>Pipeline</h2>
+					</section>
+
+					<section>
+						<h4>Pipeline</h4>
+						<img src="images/pipeline-1.png"  width="100%">
+					</section>
+
+					<section>
+						<h4>Preprocessing</h4>
+						<img src="images/preprocessing.png"  width="100%">
+					</section>
+
+					<section>
+						<h4>Vector Space</h4>
+						<img src="images/vector-space.png"  width="100%">
+					</section>
+
+					<section>
+						<h4>Model</h4>
+						<p><a href="https://radimrehurek.com/gensim/apiref.html">Gensim Models</a></p>
+						<img src="images/gensim-models.png"  width="100%">
+					</section>
+
+					<section>
+						<h4>Evaluation - Visualization</h4>
+						<p><a href="http://cpsievert.github.io/LDAvis/reviews/vis/#topic=7&lambda=0.6&term=">LDAVis</a></p>
+						<img src="images/ldavis.png"  width="80%">
+						<div style="font-size: 18px">
+							<p><a href="https://github.com/cpsievert/LDAvis">https://github.com/cpsievert/LDAvis</a>, 
+							<a href="https://github.com/bmabey/pyLDAvis">https://github.com/bmabey/pyLDAvis</a></p>
+						</p>
+						</div>
+					</section>
+
+					<section>
+						<h4>Topik</h4>
+						<p><a href="https://github.com/ContinuumIO/topik">https://github.com/ContinuumIO/topik</a></p>
+						<p>... automating the pipeline</p>
+						<pre><code class="prettyprint prettyprinted python">
+from topik.run import run_model
+
+run_model('data.json', field='abstract', model='lda_online', r_ldavis=True, output_file=True)
+						</code></pre>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h4>Resources</h4>
+						<div style="font-size:22px">
+							<li><a href="http://www.cs.princeton.edu/~blei/papers/Blei2012.pdf">http://www.cs.princeton.edu/~blei/papers/Blei2012.pdf</a></li><br>
+							<li><a href="http://miriamposner.com/blog/very-basic-strategies-for-interpreting-results-from-the-topic-modeling-tool/">http://miriamposner.com/blog/very-basic-strategies-for-interpreting-results-from-the-topic-modeling-tool/</a></li><br>
+							<li><a href="http://journalofdigitalhumanities.org/2-1/topic-modeling-a-basic-introduction-by-megan-r-brett/">http://journalofdigitalhumanities.org/2-1/topic-modeling-a-basic-introduction-by-megan-r-brett/</a></li><br>
+							<li><a href="https://beta.oreilly.com/ideas/topic-models-past-present-and-future">https://beta.oreilly.com/ideas/topic-models-past-present-and-future</a></li>
+						</div>
+					</section>
+					<section>
+						<h4>Resources</h4>
+						<div style="font-size:22px">
+						IPython notebooks explaining Dirichlet Processes, HDPs, and Latent Dirichlet Allocation, Timothy Hopper
+							<li><a href="https://github.com/tdhopper/notes-on-dirichlet-processes">https://github.com/tdhopper/notes-on-dirichlet-processes</a></li><br>
+						Visualizing Topic Models, Data Science Summit & Dato Conference 2015
+						<li><a href="https://www.youtube.com/watch?v=tGxW2BzC_DU">Video, Ben Mabey</a></li></div>
+					</section>
+
+				</section>
+
+				<section>
+					<h2>Questions?</h2>
+					<p>Slides: <br><a href="http://chdoig.github.com/pygotham-topic-modeling">http://chdoig.github.com/pygotham-topic-modeling</a></p>
+					<p>Email: <a>christine.doig@continuum.io</a></p>
+					<p>Twitter: <a href="http://twitter.com/ch_doig">ch_doig</a></p>
+				</section>
+			</div>
+
+
+		<div class="footer">
+			<div style="text-align:left; float:left; width:15%; margin-left:2%; margin-top:1%">				
+					<img src="images/continuum_analytics_b&w.png">
+				</div>
+			<div style="text-align:right; float:right; margin-right:5%; margin-top:1%">
+				<p style=" font-size:24px; height:36px"><img style="vertical-align:middle" class="social-icon" src="images/twitter-icon.png"><a href="https://twitter.com/ch_doig"> ch_doig</a>
+		        <img style="vertical-align:middle" class="social-icon" src="images/github-icon.png"><a href="https://github.com/chdoig"> chdoig </a></p>
+	        </div>
+        </div>
+
+		</div>
+
+
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

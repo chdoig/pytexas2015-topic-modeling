@@ -2,5 +2,5 @@
 
 Repository for "Topic Modeling in Python", Christine Doig, PyTexas 2015.
 
-Slides: http://chdoig.github.io/pygtexas2015-topic-modeling
+Slides: http://chdoig.github.io/pytexas2015-topic-modeling
 
